@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kariéra+ AI</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="toast"></div>
+
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <h2>🗑️ Odstranit nabídku?</h2>
+
+        <p>Opravdu chcete tuto pracovní nabídku odstranit?</p>
+
+        <div class="modal-buttons">
+          <button id="cancelDelete">Zrušit</button>
+
+          <button id="confirmDelete">Smazat</button>
+        </div>
+      </div>
+    </div>
+
+        <div id="aiModal" class="modal">
+      <div class="modal-content ai-modal-content">
+
+        <h2>🤖 AI analýza nabídky</h2>
+
+        <div id="aiAnalysisContent">
+          <div class="ai-loading">
+            🤖 AI analyzuje pracovní nabídku...
+          </div>
+        </div>
+
+        <div class="modal-buttons">
+          <button id="closeAiModal">Zavřít</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <h2>✏️ Upravit nabídku</h2>
+
+        <input id="editTitle" placeholder="Název pozice" />
+
+        <input id="editCompany" placeholder="Firma" />
+
+        <input id="editLocation" placeholder="Město" />
+
+        <input id="editSalary" placeholder="Plat" />
+
+        <input id="editUrl" placeholder="Odkaz na nabídku" />
+
+        <input id="editContact" placeholder="Kontakt" />
+
+        <textarea id="editNote" placeholder="Poznámka" rows="4"></textarea>
+
+        <div class="modal-buttons">
+          <button id="cancelEdit">Zrušit</button>
+
+          <button id="saveEdit">Uložit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- HORNÍ MENU -->
+      <div class="top-menu">
+        <button id="menuButton" class="menu-button">☰</button>
+
+        <div id="menuDropdown" class="menu-dropdown">
+          <a href="index.html">🏠 Domů</a>
+          <a href="index.html#jobs">💼 Hledání práce</a>
+          <a href="cv-builder.html">📄 Tvorba životopisu</a>
+          <a href="ai-analysis.html">🤖 AI analýza CV</a>
+          <a href="interview.html">🎤 AI pohovor</a>
+          <a href="index.html?favorites=true">⭐ Oblíbené nabídky</a>
+
+                    <div class="menu-divider"></div>
+
+          <a href="login.html" id="loginMenuLink">👤 Přihlásit</a>
+          <a href="register.html" id="registerMenuLink">📝 Registrovat se</a>
+          <a href="#" id="logoutMenuLink" style="display: none;">🚪 Odhlásit</a>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="logo">🤖</div>
+
+        </div>
+
+        <h1>Kariéra+ AI</h1>
+
+        <p class="subtitle">
+          Tvůj osobní AI kariérní asistent pro chytřejší hledání práce
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>➕ Přidat novou nabídku</h2>
+
+        <div class="form-group">
+          <input id="title" placeholder="Název pozice" />
+
+          <input id="company" placeholder="Firma" />
+
+          <input id="location" placeholder="Město" />
+
+          <input id="salary" placeholder="Plat (např. 55 000 Kč)" />
+
+          <input id="url" placeholder="Odkaz na nabídku" />
+
+          <input id="contact" placeholder="Kontakt" />
+
+          <textarea id="note" placeholder="Poznámka" rows="4"></textarea>
+
+          <button onclick="createJob()">Přidat nabídku</button>
+        </div>
+      </div>
+
+      <div class="card ai-search-card">
+        <div class="ai-search-header">
+          <div class="ai-icon">🤖</div>
+
+          <div>
+            <h2>AI hledání práce</h2>
+
+            <p>Nech AI najít pracovní nabídky, které se hodí právě pro tebe.</p>
+          </div>
+        </div>
+
+        <div class="ai-search-form">
+          <input
+            id="aiPosition"
+            placeholder="💼 Jakou práci hledáš? Např. Junior Python Developer"
+          />
+
+          <input
+            id="aiLocation"
+            placeholder="📍 Lokalita – např. Zlín, Brno, Praha nebo Remote"
+          />
+
+          <input
+            id="aiSkills"
+            placeholder="🧠 Dovednosti – např. Python, FastAPI, SQL, JavaScript"
+          />
+
+          <select id="aiWorkType">
+            <option value="">💼 Typ práce</option>
+            <option value="full-time">Plný úvazek</option>
+            <option value="part-time">Částečný úvazek</option>
+            <option value="remote">Remote</option>
+            <option value="hybrid">Hybridní práce</option>
+          </select>
+
+          <button type="button" id="aiSearchButton" onclick="searchWithAI()">
+            🤖 Hledat pomocí AI
+          </button>
+        </div>
+
+        <div id="aiResults" class="ai-results"></div>
+      </div>
+
+      <div class="card">
+        <h2>📋 Moje pracovní nabídky</h2>
+
+        <div class="stats-container">
+          <div class="stat-card active">
+            🟦 Aktivní:
+            <span id="countActive">0</span>
+          </div>
+
+          <div class="stat-card sent">
+            🟨 Životopis:
+            <span id="countSent">0</span>
+          </div>
+
+          <div class="stat-card interview">
+            🟧 Pohovor:
+            <span id="countInterview">0</span>
+          </div>
+
+          <div class="stat-card accepted">
+            🟩 Přijato:
+            <span id="countAccepted">0</span>
+          </div>
+
+          <div class="stat-card rejected">
+            🟥 Zamítnuto:
+            <span id="countRejected">0</span>
+          </div>
+        </div>
+
+        <div class="filters">
+          <input id="search" placeholder="🔍 Hledat nabídku..." />
+
+          <select id="sort">
+            <option value="new">🆕 Nejnovější</option>
+
+            <option value="title">🔤 Název A-Z</option>
+
+            <option value="company">🏢 Firma A-Z</option>
+          </select>
+
+          <select id="statusFilter">
+            <option value="all">📋 Všechny nabídky</option>
+
+            <option value="Aktivní">🟦 Aktivní</option>
+
+            <option value="Životopis odeslán">🟨 Životopis odeslán</option>
+
+            <option value="Pohovor">🟧 Pohovor</option>
+
+            <option value="Přijato">🟩 Přijato</option>
+
+            <option value="Zamítnuto">🟥 Zamítnuto</option>
+          </select>
+
+          <label class="favorite-filter">
+            <input type="checkbox" id="favoriteOnly" />
+
+            ⭐ Jen oblíbené
+          </label>
+        </div>
+
+        <div id="jobs"></div>
+
+        <div
+          id="empty"
+          style="display: none; text-align: center; margin-top: 20px"
+        >
+          😕 Zatím tu nejsou žádné nabídky
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

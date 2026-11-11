@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Kariéra+ AI – AI pohovor</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- HORNÍ MENU -->
+      <div class="top-menu">
+        <button id="menuButton" class="menu-button">☰</button>
+
+        <div id="menuDropdown" class="menu-dropdown">
+          <a href="index.html">🏠 Domů</a>
+          <a href="index.html#jobs">💼 Hledání práce</a>
+          <a href="cv-builder.html">📄 Tvorba životopisu</a>
+          <a href="ai-analysis.html">🤖 AI analýza CV</a>
+          <a href="interview.html">🎤 AI pohovor</a>
+          <a href="index.html?favorites=true">⭐ Oblíbené nabídky</a>
+
+          <div class="menu-divider"></div>
+
+          <a href="login.html" id="loginMenuLink">👤 Přihlásit</a>
+          <a href="register.html" id="registerMenuLink">📝 Registrovat se</a>
+          <a href="#" id="logoutMenuLink" style="display: none">
+            🚪 Odhlásit
+          </a>
+        </div>
+      </div>
+
+      <div class="interview-page">
+        <div class="interview-header">
+          <div class="interview-logo">🎤</div>
+
+          <div>
+            <h1>AI pohovor</h1>
+
+            <p>
+              Připrav se na pracovní pohovor nebo si vyzkoušej skutečnou
+              simulaci pohovoru s AI.
+            </p>
+          </div>
+        </div>
+
+        <div class="card interview-intro-card">
+          <h2>🎯 Nastavení pohovoru</h2>
+
+          <p>Nejdříve nám řekni, na jakou pozici se chceš připravit.</p>
+
+          <div class="interview-form">
+            <div class="interview-form-group">
+              <label for="interviewPosition"> Pracovní pozice </label>
+
+              <input
+                type="text"
+                id="interviewPosition"
+                placeholder="Např. Junior Python Developer"
+              />
+            </div>
+
+            <div class="interview-form-group">
+              <label for="interviewCompany">
+                Firma <span>(nepovinné)</span>
+              </label>
+
+              <input
+                type="text"
+                id="interviewCompany"
+                placeholder="Např. ABC s.r.o."
+              />
+            </div>
+
+            <div class="interview-form-group">
+              <label for="interviewType"> Typ pohovoru </label>
+
+              <select id="interviewType">
+                <option value="preparation">📝 Příprava na pohovor</option>
+
+                <option value="simulation">🎤 Simulovaný pohovor</option>
+              </select>
+            </div>
+
+            <button
+              type="button"
+              class="interview-start-button"
+              id="startInterviewButton"
+            >
+              🤖 Připravit pohovor
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="simulationArea"
+          class="card interview-simulation"
+          style="display: none"
+        >
+          <div class="simulation-header">
+            <h2>🎤 Simulovaný pohovor</h2>
+
+            <span id="simulationQuestionNumber">Otázka 1</span>
+          </div>
+
+          <div class="simulation-question">
+            <div class="simulation-question-label">🤖 Personalista</div>
+
+            <div id="simulationQuestion"></div>
+          </div>
+
+          <div class="simulation-answer">
+            <label for="simulationAnswer">Tvoje odpověď</label>
+
+            <textarea
+              id="simulationAnswer"
+              rows="7"
+              placeholder="Napiš svou odpověď tak, jako bys byla skutečně na pohovoru..."
+            ></textarea>
+          </div>
+
+          <div class="simulation-actions">
+            <button type="button" id="sendSimulationAnswer">
+              ➡️ Odeslat odpověď
+            </button>
+
+            <button type="button" id="finishSimulation">
+              🏁 Ukončit pohovor
+            </button>
+          </div>
+
+          <div id="simulationStatus"></div>
+        </div>
+
+        <div
+          id="interviewHistory"
+          class="card interview-history"
+          style="display: none"
+        >
+          <div class="interview-history-header">
+            <h2>📚 Historie pohovorů</h2>
+
+            <p>Tady najdeš své uložené výsledky simulovaných pohovorů.</p>
+          </div>
+
+          <div id="interviewHistoryList"></div>
+        </div>
+
+        <button
+          class="cv-back-button"
+          onclick="window.location.href = 'index.html'"
+        >
+          ← Zpět na hlavní stránku
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const startInterviewButton = document.getElementById(
+        "startInterviewButton",
+      );
+
+      const simulationArea = document.getElementById("simulationArea");
+      const simulationQuestion = document.getElementById("simulationQuestion");
+      const simulationQuestionNumber = document.getElementById(
+        "simulationQuestionNumber",
+      );
+      const simulationAnswer = document.getElementById("simulationAnswer");
+      const sendSimulationAnswer = document.getElementById(
+        "sendSimulationAnswer",
+      );
+      const finishSimulation = document.getElementById("finishSimulation");
+      const simulationStatus = document.getElementById("simulationStatus");
+      const interviewHistory = document.getElementById("interviewHistory");
+      const interviewHistoryList = document.getElementById(
+        "interviewHistoryList",
+      );
+
+      let simulationPosition = "";
+      let simulationCompany = "";
+      let currentQuestion = "";
+      let questionNumber = 1;
+      let conversation = [];
+
+      async function loadSavedInterviewResults() {
+        const token = localStorage.getItem("access_token");
+
+        if (!token || token === "null" || token === "undefined") {
+          return;
+        }
+
+        try {
+          console.log("📂 NAČÍTÁM HISTORII POHOVORŮ...");
+
+          const response = await fetch(
+            "http://127.0.0.1:8000/interview/simulation/results",
+            {
+              method: "GET",
+
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+
+          if (!response.ok) {
+            console.error("❌ Nepodařilo se načíst uložené výsledky pohovorů.");
+            return;
+          }
+
+          const data = await response.json();
+
+          if (!data.results || data.results.length === 0) {
+            console.log("ℹ️ Uživatel zatím nemá uložené pohovory.");
+            return;
+          }
+
+          console.log("✅ NAČTENO POČET VÝSLEDKŮ:", data.results.length);
+
+          renderInterviewHistory(data.results);
+
+          const latestResult = data.results[0];
+
+          if (!latestResult.result) {
+            return;
+          }
+
+          let evaluation;
+
+          if (typeof latestResult.result === "string") {
+            try {
+              evaluation = JSON.parse(latestResult.result);
+            } catch (error) {
+              console.error(
+                "❌ Uložený výsledek pohovoru není platný JSON.",
+                error,
+              );
+              return;
+            }
+          } else {
+            evaluation = latestResult.result;
+          }
+
+          simulationPosition = latestResult.position || "";
+          simulationCompany = latestResult.company || "";
+
+          showSimulationEvaluation(evaluation);
+        } catch (error) {
+          console.error("❌ CHYBA PŘI NAČÍTÁNÍ HISTORIE POHOVORŮ:", error);
+        }
+      }
+
+      function renderInterviewHistory(results) {
+        if (!interviewHistory || !interviewHistoryList) {
+          return;
+        }
+
+        interviewHistory.style.display = "block";
+        interviewHistoryList.innerHTML = "";
+
+        results.forEach((item) => {
+          let evaluation = item.result;
+
+          if (typeof evaluation === "string") {
+            try {
+              evaluation = JSON.parse(evaluation);
+            } catch (error) {
+              console.error("❌ Historie obsahuje neplatný výsledek:", error);
+              return;
+            }
+          }
+
+          const historyItem = document.createElement("div");
+
+          historyItem.className = "interview-history-item";
+
+          const date = item.created_at
+            ? new Date(item.created_at.replace(" ", "T")).toLocaleString(
+                "cs-CZ",
+                {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                },
+              )
+            : "Datum neuvedeno";
+
+          const position = item.position || "Neurčená pozice";
+
+          const company = item.company || "Firma neuvedena";
+
+          const score =
+            evaluation && evaluation.score !== undefined
+              ? evaluation.score
+              : "–";
+
+          historyItem.innerHTML = `
+            <div class="interview-history-info">
+              <h3>${position}</h3>
+
+              <p>${company}</p>
+
+              <span>📅 ${date}</span>
+            </div>
+
+            <div class="interview-history-score">
+              <strong>${score}</strong>
+              <span>/ 100</span>
+            </div>
+
+            <button
+              type="button"
+              class="interview-history-button"
+            >
+              👁️ Zobrazit výsledek
+            </button>
+          `;
+
+          const viewButton = historyItem.querySelector(
+            ".interview-history-button",
+          );
+
+          viewButton.addEventListener("click", () => {
+            simulationPosition = position;
+            simulationCompany = item.company || "";
+
+            document
+              .querySelectorAll(".interview-history-item")
+              .forEach((entry) => {
+                entry.classList.remove("active");
+              });
+
+            historyItem.classList.add("active");
+
+            showSimulationEvaluation(evaluation);
+          });
+
+          interviewHistoryList.appendChild(historyItem);
+        });
+      }
+
+      startInterviewButton.addEventListener("click", async () => {
+        const position = document
+          .getElementById("interviewPosition")
+          .value.trim();
+
+        const company = document
+          .getElementById("interviewCompany")
+          .value.trim();
+
+        const interviewType = document.getElementById("interviewType").value;
+
+        if (!position) {
+          alert("Nejprve zadej pracovní pozici.");
+          return;
+        }
+
+        startInterviewButton.disabled = true;
+
+        try {
+          if (interviewType === "simulation") {
+            await startSimulation(position, company);
+            return;
+          }
+
+          startInterviewButton.textContent = "⏳ Připravuji pohovor...";
+
+          const response = await fetch(
+            "http://127.0.0.1:8000/interview/prepare",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+              },
+
+              body: JSON.stringify({
+                position: position,
+                company: company,
+                interview_type: interviewType,
+              }),
+            },
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.detail || "Nepodařilo se připravit pohovor.");
+          }
+
+          showPreparationResult(data.result, position, company);
+        } catch (error) {
+          console.error("❌ CHYBA AI POHOVORU:", error);
+
+          alert("Nepodařilo se připravit pohovor.\n\n" + error.message);
+        } finally {
+          startInterviewButton.disabled = false;
+          startInterviewButton.textContent = "🤖 Připravit pohovor";
+        }
+      });
+
+      async function startSimulation(position, company) {
+        startInterviewButton.textContent = "⏳ Zahajuji pohovor...";
+
+        simulationPosition = position;
+        simulationCompany = company;
+        questionNumber = 1;
+        conversation = [];
+
+        const response = await fetch(
+          "http://127.0.0.1:8000/interview/simulation/start",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+              position: position,
+              company: company,
+            }),
+          },
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.detail || "Nepodařilo se zahájit simulovaný pohovor.",
+          );
+        }
+
+        currentQuestion = data.question;
+
+        simulationQuestion.textContent = currentQuestion;
+        simulationQuestionNumber.textContent = "Otázka " + questionNumber;
+
+        simulationAnswer.value = "";
+        simulationStatus.textContent = "";
+
+        simulationArea.style.display = "block";
+
+        simulationArea.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      sendSimulationAnswer.addEventListener("click", async () => {
+        const answer = simulationAnswer.value.trim();
+
+        if (!answer) {
+          alert("Nejprve napiš svou odpověď.");
+          return;
+        }
+
+        sendSimulationAnswer.disabled = true;
+        finishSimulation.disabled = true;
+
+        simulationStatus.textContent =
+          "⏳ Personalista přemýšlí nad další otázkou...";
+
+        try {
+          conversation.push({
+            question: currentQuestion,
+            answer: answer,
+          });
+
+          const response = await fetch(
+            "http://127.0.0.1:8000/interview/simulation/answer",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+              },
+
+              body: JSON.stringify({
+                position: simulationPosition,
+                company: simulationCompany,
+                question: currentQuestion,
+                answer: answer,
+                conversation: conversation,
+              }),
+            },
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(
+              data.detail || "Nepodařilo se získat další otázku.",
+            );
+          }
+
+          currentQuestion = data.next_question;
+
+          questionNumber++;
+
+          simulationQuestion.textContent = currentQuestion;
+          simulationQuestionNumber.textContent = "Otázka " + questionNumber;
+
+          simulationAnswer.value = "";
+
+          simulationStatus.textContent = "";
+
+          simulationArea.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        } catch (error) {
+          console.error("❌ CHYBA SIMULOVANÉHO POHOVORU:", error);
+
+          conversation.pop();
+
+          simulationStatus.textContent = "❌ " + error.message;
+        } finally {
+          sendSimulationAnswer.disabled = false;
+          finishSimulation.disabled = false;
+        }
+      });
+
+      finishSimulation.addEventListener("click", async () => {
+        if (conversation.length === 0) {
+          alert("Nejdříve zodpověz alespoň jednu otázku.");
+          return;
+        }
+
+        const confirmed = confirm(
+          "Opravdu chceš ukončit pohovor a zobrazit jeho vyhodnocení?",
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        const token = localStorage.getItem("access_token");
+
+        if (!token || token === "null" || token === "undefined") {
+          simulationStatus.textContent =
+            "❌ Pro uložení výsledku pohovoru se nejprve přihlas.";
+          return;
+        }
+
+        sendSimulationAnswer.disabled = true;
+        finishSimulation.disabled = true;
+
+        simulationStatus.textContent = "⏳ Vyhodnocuji celý pohovor...";
+
+        try {
+          const response = await fetch(
+            "http://127.0.0.1:8000/interview/simulation/evaluate",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+
+              body: JSON.stringify({
+                position: simulationPosition,
+                company: simulationCompany,
+                conversation: conversation,
+              }),
+            },
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.detail || "Nepodařilo se vyhodnotit pohovor.");
+          }
+
+          let evaluation;
+
+          try {
+            evaluation = JSON.parse(data.result);
+          } catch (error) {
+            throw new Error("AI vrátila neplatný formát vyhodnocení.");
+          }
+
+          showSimulationEvaluation(evaluation);
+
+          simulationStatus.textContent = "";
+        } catch (error) {
+          console.error("❌ CHYBA VYHODNOCENÍ POHOVORU:", error);
+
+          simulationStatus.textContent = "❌ " + error.message;
+        } finally {
+          sendSimulationAnswer.disabled = false;
+          finishSimulation.disabled = false;
+        }
+      });
+      function showSimulationEvaluation(evaluation) {
+        const evaluationBox = document.createElement("div");
+
+        evaluationBox.className = "card interview-evaluation";
+
+        evaluationBox.innerHTML = `
+    <div class="evaluation-title">
+      <h2>🏆 Vyhodnocení pohovoru</h2>
+      <p>Celkové hodnocení tvého výkonu</p>
+    </div>
+
+    <div class="evaluation-main-score">
+      <div class="evaluation-score-circle">
+        <strong>${evaluation.score}</strong>
+        <span>/ 100</span>
+      </div>
+    </div>
+
+    <div class="evaluation-categories">
+      <div class="evaluation-category">
+        <div class="evaluation-category-name">
+          <span>📝 Obsah odpovědí</span>
+          <strong>${evaluation.content}</strong>
+        </div>
+        <div class="evaluation-progress">
+          <div style="width: ${evaluation.content}%"></div>
+        </div>
+      </div>
+
+      <div class="evaluation-category">
+        <div class="evaluation-category-name">
+          <span>🎯 Relevance</span>
+          <strong>${evaluation.relevance}</strong>
+        </div>
+        <div class="evaluation-progress">
+          <div style="width: ${evaluation.relevance}%"></div>
+        </div>
+      </div>
+
+      <div class="evaluation-category">
+        <div class="evaluation-category-name">
+          <span>💻 Odborné znalosti</span>
+          <strong>${evaluation.expertise}</strong>
+        </div>
+        <div class="evaluation-progress">
+          <div style="width: ${evaluation.expertise}%"></div>
+        </div>
+      </div>
+
+      <div class="evaluation-category">
+        <div class="evaluation-category-name">
+          <span>💬 Komunikace</span>
+          <strong>${evaluation.communication}</strong>
+        </div>
+        <div class="evaluation-progress">
+          <div style="width: ${evaluation.communication}%"></div>
+        </div>
+      </div>
+
+      <div class="evaluation-category">
+        <div class="evaluation-category-name">
+          <span>💪 Sebejistota</span>
+          <strong>${evaluation.confidence}</strong>
+        </div>
+        <div class="evaluation-progress">
+          <div style="width: ${evaluation.confidence}%"></div>
+        </div>
+      </div>
+
+      <div class="evaluation-category">
+        <div class="evaluation-category-name">
+          <span>👔 Profesionalita</span>
+          <strong>${evaluation.professionalism}</strong>
+        </div>
+        <div class="evaluation-progress">
+          <div style="width: ${evaluation.professionalism}%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="evaluation-section evaluation-strengths">
+      <h3>✅ Silné stránky</h3>
+
+      <ul>
+        ${evaluation.strengths.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+    </div>
+
+    <div class="evaluation-section evaluation-weaknesses">
+      <h3>⚠️ Co zlepšit</h3>
+
+      <ul>
+        ${evaluation.weaknesses.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+    </div>
+
+    <div class="evaluation-section evaluation-recommendations">
+      <h3>💡 Doporučení</h3>
+
+      <ul>
+        ${evaluation.recommendations.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+    </div>
+
+    <div class="evaluation-section">
+      <h3>🗣️ Lepší formulace odpovědí</h3>
+
+      <div class="better-answers-list">
+        ${evaluation.better_answers
+          .map(
+            (item) => `
+              <div class="better-answer">
+                <div class="better-answer-question">
+                  <span>❓ Otázka</span>
+                  <p>${item.question}</p>
+                </div>
+
+                <div class="better-answer-original">
+                  <span>🗣️ Tvoje odpověď</span>
+                  <p>${item.original_answer}</p>
+                </div>
+
+                <div class="better-answer-improved">
+                  <span>✨ Možná lepší odpověď</span>
+                  <p>${item.better_answer}</p>
+                </div>
+              </div>
+            `,
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+
+        const oldEvaluation = document.querySelector(".interview-evaluation");
+
+        if (oldEvaluation) {
+          oldEvaluation.remove();
+        }
+
+        simulationArea.insertAdjacentElement("afterend", evaluationBox);
+
+        evaluationBox.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      function showPreparationResult(result, position, company) {
+        const resultBox = document.createElement("div");
+
+        resultBox.className = "card interview-result";
+
+        resultBox.innerHTML = `
+    <h2>🤖 Příprava na pohovor</h2>
+
+    <p class="interview-result-info">
+      <strong>${position}</strong>
+      ${company ? ` · ${company}` : ""}
+    </p>
+
+    <div class="interview-ai-text">
+      ${formatInterviewMarkdown(result)}
+    </div>
+  `;
+
+        const oldResult = document.querySelector(".interview-result");
+
+        if (oldResult) {
+          oldResult.remove();
+        }
+
+        simulationArea.insertAdjacentElement("beforebegin", resultBox);
+
+        resultBox.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      function formatInterviewMarkdown(text) {
+        let html = text;
+
+        html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+
+        html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
+
+        html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+
+        html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+
+        html = html.replace(/`(.+?)`/g, "<code>$1</code>");
+
+        html = html.replace(/^\* (.+)$/gm, "<li>$1</li>");
+
+        html = html.replace(/(<li>.*<\/li>)/gs, "<ul>$1</ul>");
+
+        html = html.replace(/\n{2,}/g, "<br><br>");
+
+        return html;
+      }
+
+      loadSavedInterviewResults();
+    </script>
+
+    <script>
+      const menuButton = document.getElementById("menuButton");
+      const menuDropdown = document.getElementById("menuDropdown");
+
+      if (menuButton && menuDropdown) {
+        menuButton.addEventListener("click", () => {
+          menuDropdown.classList.toggle("open");
+        });
+
+        document.addEventListener("click", (event) => {
+          if (
+            !menuButton.contains(event.target) &&
+            !menuDropdown.contains(event.target)
+          ) {
+            menuDropdown.classList.remove("open");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

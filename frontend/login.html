@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Přihlášení | Kariéra+ AI</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container auth-page">
+      <div class="auth-card card">
+        <div class="auth-logo">🤖</div>
+
+        <h1>Kariéra+ AI</h1>
+
+        <p class="auth-subtitle">Přihlášení do tvého kariérního asistenta</p>
+
+        <form id="loginForm" class="auth-form">
+          <div class="auth-field">
+            <label for="loginEmail">📧 E-mail</label>
+
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="tvuj@email.cz"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="auth-field">
+            <label for="loginPassword">🔐 Heslo</label>
+
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Tvoje heslo"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="auth-button">👤 Přihlásit se</button>
+        </form>
+
+        <div id="loginMessage" class="auth-message"></div>
+
+        <div class="auth-divider">
+          <span>nebo</span>
+        </div>
+
+        <p class="auth-switch">
+          Ještě nemáš účet?
+          <a href="register.html">📝 Registrovat se</a>
+        </p>
+
+        <a href="index.html" class="auth-back"> ← Zpět na Kariéra+ AI </a>
+      </div>
+    </div>
+
+    <script src="auth.js"></script>
+  </body>
+</html>

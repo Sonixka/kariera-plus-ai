@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Kariéra+ AI | Domů</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="toast"></div>
+
+    <!-- ==============================
+         HORNÍ MENU
+    =============================== -->
+
+    <div class="top-menu">
+      <button id="menuButton" class="menu-button">☰</button>
+
+      <div id="menuDropdown" class="menu-dropdown">
+        <a href="home.html">🏠 Domů</a>
+
+        <a href="index.html">💼 Hledání práce</a>
+
+        <a href="cv.html">📄 Můj životopis</a>
+
+        <a href="cv.html#ai-analysis">🤖 AI analýza CV</a>
+
+        <a href="index.html#favorites">⭐ Oblíbené nabídky</a>
+
+        <div class="menu-divider"></div>
+
+        <a href="#" onclick="return false;">👤 Přihlásit</a>
+
+        <a href="#" onclick="return false;">📝 Registrovat se</a>
+      </div>
+    </div>
+
+    <!-- ==============================
+         HLAVNÍ OBSAH
+    =============================== -->
+
+    <div class="container home-page">
+      <section class="home-hero">
+        <div class="home-logo">🤖</div>
+
+        <h1>Kariéra+ AI</h1>
+
+        <p>Tvůj osobní AI kariérní asistent</p>
+
+        <span>
+          Hledej práci chytřeji, analyzuj své CV a měj svou kariéru pod
+          kontrolou.
+        </span>
+      </section>
+
+      <!-- ==============================
+           RYCHLÉ AKCE
+      =============================== -->
+
+      <section class="card home-actions">
+        <h2>🚀 Co chceš právě teď udělat?</h2>
+
+        <div class="home-action-grid">
+          <a href="index.html" class="home-action-card">
+            <div class="home-action-icon">💼</div>
+
+            <h3>Hledat práci</h3>
+
+            <p>
+              Prohlédni si své pracovní nabídky a nech AI hledat nové
+              příležitosti.
+            </p>
+          </a>
+
+          <a href="cv.html" class="home-action-card">
+            <div class="home-action-icon">📄</div>
+
+            <h3>Moje CV</h3>
+
+            <p>Nahraj svůj životopis a nech AI zhodnotit jeho kvalitu.</p>
+          </a>
+
+          <a href="cv.html#ai-analysis" class="home-action-card">
+            <div class="home-action-icon">🤖</div>
+
+            <h3>AI analýza CV</h3>
+
+            <p>Zjisti, co je v životopisu dobře a co by bylo vhodné zlepšit.</p>
+          </a>
+
+          <a href="index.html#favorites" class="home-action-card">
+            <div class="home-action-icon">⭐</div>
+
+            <h3>Oblíbené nabídky</h3>
+
+            <p>
+              Rychle se vrať k pracovním nabídkám, které sis označila jako
+              oblíbené.
+            </p>
+          </a>
+        </div>
+      </section>
+
+      <!-- ==============================
+           INFORMACE O APLIKACI
+      =============================== -->
+
+      <section class="card home-info">
+        <h2>✨ Kariéra+ AI ti pomůže</h2>
+
+        <div class="home-info-grid">
+          <div>
+            <span>🎯</span>
+
+            <h3>Najít vhodnou práci</h3>
+
+            <p>
+              AI dokáže porovnat pracovní nabídku s tvými dovednostmi a ukázat,
+              jak moc se pro danou pozici hodíš.
+            </p>
+          </div>
+
+          <div>
+            <span>📊</span>
+
+            <h3>Organizovat hledání</h3>
+
+            <p>
+              Sleduj stav jednotlivých pracovních nabídek, pohovory, odeslané
+              životopisy i výsledky.
+            </p>
+          </div>
+
+          <div>
+            <span>🧠</span>
+
+            <h3>Zlepšit své CV</h3>
+
+            <p>
+              AI analyzuje tvůj životopis a upozorní na informace, které v něm
+              mohou chybět.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==============================
+         MENU JAVASCRIPT
+    =============================== -->
+
+    <script>
+      const menuButton = document.getElementById("menuButton");
+
+      const menuDropdown = document.getElementById("menuDropdown");
+
+      menuButton.addEventListener("click", () => {
+        menuDropdown.classList.toggle("open");
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          !menuButton.contains(event.target) &&
+          !menuDropdown.contains(event.target)
+        ) {
+          menuDropdown.classList.remove("open");
+        }
+      });
+    </script>
+  </body>
+</html>

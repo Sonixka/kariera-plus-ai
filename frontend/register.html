@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Registrace | Kariéra+ AI</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container auth-page">
+      <div class="auth-card card">
+        <div class="auth-logo">🤖</div>
+
+        <h1>Kariéra+ AI</h1>
+
+        <p class="auth-subtitle">
+          Vytvoř si účet a začni používat svého AI kariérního asistenta
+        </p>
+
+        <form id="registerForm" class="auth-form">
+          <div class="auth-field">
+            <label for="registerName">👤 Jméno</label>
+
+            <input
+              type="text"
+              id="registerName"
+              placeholder="Tvoje jméno"
+              autocomplete="name"
+              required
+            />
+          </div>
+
+          <div class="auth-field">
+            <label for="registerEmail">📧 E-mail</label>
+
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="tvuj@email.cz"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="auth-field">
+            <label for="registerPassword">🔐 Heslo</label>
+
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Minimálně 6 znaků"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            />
+          </div>
+
+          <div class="auth-field">
+            <label for="registerPasswordConfirm"> 🔐 Potvrzení hesla </label>
+
+            <input
+              type="password"
+              id="registerPasswordConfirm"
+              placeholder="Zadej heslo znovu"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            />
+          </div>
+
+          <button type="submit" class="auth-button">📝 Vytvořit účet</button>
+        </form>
+
+        <div id="registerMessage" class="auth-message"></div>
+
+        <div class="auth-divider">
+          <span>nebo</span>
+        </div>
+
+        <p class="auth-switch">
+          Už účet máš?
+          <a href="login.html">👤 Přihlásit se</a>
+        </p>
+
+        <a href="index.html" class="auth-back"> ← Zpět na Kariéra+ AI </a>
+      </div>
+    </div>
+
+    <script src="auth.js"></script>
+  </body>
+</html>

@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Kariéra+ AI – Tvorba životopisu</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="auth.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- HORNÍ MENU -->
+      <div class="top-menu">
+        <button id="menuButton" class="menu-button">☰</button>
+
+        <div id="menuDropdown" class="menu-dropdown">
+          <a href="index.html">🏠 Domů</a>
+          <a href="index.html#jobs">💼 Hledání práce</a>
+          <a href="cv-builder.html">📄 Tvorba životopisu</a>
+          <a href="ai-analysis.html">🤖 AI analýza CV</a>
+          <a href="interview.html">🎤 AI pohovor</a>
+          <a href="index.html?favorites=true">⭐ Oblíbené nabídky</a>
+
+          <div class="menu-divider"></div>
+
+          <a href="login.html" id="loginMenuLink">👤 Přihlásit</a>
+          <a href="register.html" id="registerMenuLink"> 📝 Registrovat se </a>
+
+          <a href="#" id="logoutMenuLink" style="display: none">
+            🚪 Odhlásit
+          </a>
+        </div>
+      </div>
+
+      <!-- TVORBA ŽIVOTOPISU -->
+      <div class="cv-builder-page">
+        <div class="cv-builder-header">
+          <div class="cv-builder-logo">📄</div>
+
+          <div>
+            <h1>Tvorba životopisu</h1>
+
+            <p>
+              Vytvoř si profesionální životopis podle sebe. Vyber si šablonu,
+              vyplň své údaje a sleduj náhled v reálném čase.
+            </p>
+          </div>
+        </div>
+
+        <!-- VÝBĚR ŠABLONY -->
+        <section class="cv-builder-section">
+          <h2>🎨 Vyber si šablonu</h2>
+
+          <div class="cv-template-grid">
+            <button
+              class="cv-template-card active"
+              type="button"
+              data-template="modern"
+            >
+              <div class="cv-template-preview template-preview-modern">
+                <div class="mini-cv mini-modern">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                </div>
+              </div>
+
+              <strong>Moderní Neon</strong>
+              <span>Moderní vzhled s výrazným akcentem</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="professional"
+            >
+              <div class="cv-template-preview template-preview-professional">
+                <div class="mini-cv mini-professional">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line"></div>
+                </div>
+              </div>
+
+              <strong>Corporate</strong>
+              <span>Formální vzhled pro firmy</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="minimal"
+            >
+              <div class="cv-template-preview template-preview-minimal">
+                <div class="mini-cv mini-minimal">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                </div>
+              </div>
+
+              <strong>Minimalistická</strong>
+              <span>Čistý a vzdušný design</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="executive"
+            >
+              <div class="cv-template-preview template-preview-executive">
+                <div class="mini-cv mini-executive">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                </div>
+              </div>
+
+              <strong>Executive</strong>
+              <span>Elegantní a reprezentativní</span>
+            </button>
+
+            <button class="cv-template-card" type="button" data-template="blue">
+              <div class="cv-template-preview template-preview-blue">
+                <div class="mini-cv mini-blue">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                </div>
+              </div>
+
+              <strong>Professional Blue</strong>
+              <span>Klasický profesionální styl</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="creative"
+            >
+              <div class="cv-template-preview template-preview-creative">
+                <div class="mini-cv mini-creative">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line short"></div>
+                  <div class="mini-line"></div>
+                </div>
+              </div>
+
+              <strong>Creative</strong>
+              <span>Pro kreativní profese</span>
+            </button>
+
+            <button class="cv-template-card" type="button" data-template="tech">
+              <div class="cv-template-preview template-preview-tech">
+                <div class="mini-cv mini-tech">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                </div>
+              </div>
+
+              <strong>Tech</strong>
+              <span>Pro IT a technologické profese</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="dynamic"
+            >
+              <div class="cv-template-preview template-preview-dynamic">
+                <div class="mini-cv mini-dynamic">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                </div>
+              </div>
+
+              <strong>Dynamic</strong>
+              <span>Výrazný a energický design</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="classic"
+            >
+              <div class="cv-template-preview template-preview-classic">
+                <div class="mini-cv mini-classic">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                </div>
+              </div>
+
+              <strong>Classic</strong>
+              <span>Tradiční a univerzální CV</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="editorial"
+            >
+              <div class="cv-template-preview template-preview-editorial">
+                <div class="mini-cv mini-editorial">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-line short"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line"></div>
+                </div>
+              </div>
+
+              <strong>Editorial</strong>
+              <span>Styl inspirovaný magazínovým designem</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="portfolio"
+            >
+              <div class="cv-template-preview template-preview-portfolio">
+                <div class="mini-cv mini-portfolio">
+                  <div class="mini-header"></div>
+                  <div class="mini-title"></div>
+                  <div class="mini-line"></div>
+                  <div class="mini-section"></div>
+                  <div class="mini-line short"></div>
+                  <div class="mini-line"></div>
+                </div>
+              </div>
+
+              <strong>Portfolio</strong>
+              <span>Pro kreativní a osobní prezentaci</span>
+            </button>
+
+            <button
+              class="cv-template-card"
+              type="button"
+              data-template="twocolumn"
+            >
+              <div class="cv-template-preview template-preview-twocolumn">
+                <div class="mini-cv mini-twocolumn">
+                  <div class="mini-side"></div>
+                  <div class="mini-main">
+                    <div class="mini-header"></div>
+                    <div class="mini-title"></div>
+                    <div class="mini-line"></div>
+                    <div class="mini-section"></div>
+                    <div class="mini-line"></div>
+                  </div>
+                </div>
+              </div>
+
+              <strong>Modern Two-Column</strong>
+              <span>Moderní dvousloupcové CV</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- EDITOR + NÁHLED -->
+        <div class="cv-builder-layout">
+          <!-- LEVÁ STRANA -->
+          <section class="cv-builder-editor">
+            <h2>✏️ Tvoje údaje</h2>
+
+            <div class="cv-form-group">
+              <label for="cvName">Jméno a příjmení</label>
+              <input
+                type="text"
+                id="cvName"
+                placeholder="Např. Jana Nováková"
+              />
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvPhoto"> Profilová fotografie </label>
+
+              <input
+                type="file"
+                id="cvPhoto"
+                accept="image/jpeg,image/png,image/webp"
+              />
+
+              <small class="cv-form-help">
+                Doporučený formát: JPG nebo PNG.
+              </small>
+
+              <div
+                id="cvPhotoPreview"
+                class="cv-photo-preview"
+                style="display: none"
+              >
+                <img
+                  id="cvPhotoImage"
+                  src=""
+                  alt="Náhled profilové fotografie"
+                />
+
+                <button
+                  id="removeCvPhoto"
+                  type="button"
+                  class="cv-photo-remove"
+                >
+                  ✕ Odstranit fotografii
+                </button>
+              </div>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvTitle">Profesní pozice</label>
+              <input
+                type="text"
+                id="cvTitle"
+                placeholder="Např. Junior Python Developer"
+              />
+            </div>
+
+            <div class="cv-form-row">
+              <div class="cv-form-group">
+                <label for="cvEmail">E-mail</label>
+
+                <input
+                  type="email"
+                  id="cvEmail"
+                  placeholder="email@example.com"
+                />
+              </div>
+
+              <div class="cv-form-group">
+                <label for="cvPhone">Telefon</label>
+
+                <input type="tel" id="cvPhone" placeholder="+420 123 456 789" />
+              </div>
+            </div>
+
+            <div class="cv-form-row">
+              <div class="cv-form-group">
+                <label for="cvCity">Město</label>
+
+                <input type="text" id="cvCity" placeholder="Např. Zlín" />
+              </div>
+
+              <div class="cv-form-group">
+                <label for="cvWebsite">Web / LinkedIn</label>
+
+                <input
+                  type="text"
+                  id="cvWebsite"
+                  placeholder="www.example.cz"
+                />
+              </div>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvAbout">O mně</label>
+
+              <textarea
+                id="cvAbout"
+                rows="5"
+                placeholder="Krátce představ svou profesní zkušenost, zaměření a cíle."
+              ></textarea>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvExperience">Pracovní zkušenosti</label>
+
+              <textarea
+                id="cvExperience"
+                rows="7"
+                placeholder="Pozice, firma, období a hlavní pracovní náplň."
+              ></textarea>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvEducation">Vzdělání</label>
+
+              <textarea
+                id="cvEducation"
+                rows="5"
+                placeholder="Škola, obor a období studia."
+              ></textarea>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvSkills">Dovednosti</label>
+
+              <textarea
+                id="cvSkills"
+                rows="4"
+                placeholder="Např. Python, HTML, CSS, SQL, JavaScript..."
+              ></textarea>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvProjects"> Projekty </label>
+
+              <textarea
+                id="cvProjects"
+                rows="5"
+                placeholder="Např. Kariéra+ AI – webová aplikace pro hledání práce, AI analýzu CV a přípravu na pohovor."
+              ></textarea>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvCertificates"> Certifikace a kurzy </label>
+
+              <textarea
+                id="cvCertificates"
+                rows="4"
+                placeholder="Např. Tvorba webových aplikací – Orange Academy, 2025"
+              ></textarea>
+            </div>
+
+            <div class="cv-form-group">
+              <label for="cvLanguages">Jazyky</label>
+
+              <textarea
+                id="cvLanguages"
+                rows="3"
+                placeholder="Např. Čeština – rodilý mluvčí, Angličtina – B2"
+              ></textarea>
+            </div>
+          </section>
+
+          <!-- PRAVÁ STRANA -->
+          <section class="cv-builder-preview">
+            <div class="cv-preview-header">
+              <h2>👁️ Náhled CV</h2>
+
+              <button
+                id="downloadCvButton"
+                class="cv-builder-action"
+                type="button"
+              >
+                📥 Stáhnout PDF
+              </button>
+            </div>
+
+            <div id="cvPreview" class="cv-preview-document">
+              <div class="cv-preview-top">
+                <div
+                  id="cvPreviewPhoto"
+                  class="cv-preview-photo"
+                  style="display: none"
+                >
+                  <img
+                    id="cvPreviewPhotoImage"
+                    src=""
+                    alt="Profilová fotografie"
+                  />
+                </div>
+
+                <div class="cv-preview-header-content">
+                  <h1 id="previewName">Tvoje jméno</h1>
+
+                  <h2 id="previewTitle">Profesní pozice</h2>
+
+                  <p id="previewContact">
+                    email@example.com · +420 123 456 789
+                  </p>
+                </div>
+              </div>
+
+              <div class="cv-preview-section">
+                <h3>Profil</h3>
+
+                <p id="previewAbout">Krátké představení se zobrazí zde.</p>
+              </div>
+
+              <div class="cv-preview-section">
+                <h3>Pracovní zkušenosti</h3>
+
+                <p id="previewExperience">
+                  Tvoje pracovní zkušenosti se zobrazí zde.
+                </p>
+              </div>
+
+              <div class="cv-preview-section">
+                <h3>Vzdělání</h3>
+
+                <p id="previewEducation">Tvoje vzdělání se zobrazí zde.</p>
+              </div>
+
+              <div class="cv-preview-section">
+                <h3>Dovednosti</h3>
+
+                <p id="previewSkills">Tvoje dovednosti se zobrazí zde.</p>
+              </div>
+
+              <div class="cv-preview-section">
+                <h3>Projekty</h3>
+
+                <p id="previewProjects">Tvoje projekty se zobrazí zde.</p>
+              </div>
+
+              <div class="cv-preview-section">
+                <h3>Certifikace a kurzy</h3>
+
+                <p id="previewCertificates">
+                  Tvoje certifikace a kurzy se zobrazí zde.
+                </p>
+              </div>
+
+              <div class="cv-preview-section">
+                <h3>Jazyky</h3>
+
+                <p id="previewLanguages">
+                  Tvoje jazykové znalosti se zobrazí zde.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* =====================================
+     HORNÍ MENU
+  ===================================== */
+
+      const menuButton = document.getElementById("menuButton");
+      const menuDropdown = document.getElementById("menuDropdown");
+
+      if (menuButton && menuDropdown) {
+        menuButton.addEventListener("click", () => {
+          menuDropdown.classList.toggle("open");
+        });
+
+        document.addEventListener("click", (event) => {
+          if (
+            !menuButton.contains(event.target) &&
+            !menuDropdown.contains(event.target)
+          ) {
+            menuDropdown.classList.remove("open");
+          }
+        });
+      }
+
+      /* =====================================
+     ŽIVÝ NÁHLED CV
+  ===================================== */
+
+      const cvFields = {
+        cvName: "previewName",
+        cvTitle: "previewTitle",
+        cvEmail: "previewContact",
+        cvPhone: "previewContact",
+        cvCity: "previewContact",
+        cvWebsite: "previewContact",
+        cvAbout: "previewAbout",
+        cvExperience: "previewExperience",
+        cvEducation: "previewEducation",
+        cvSkills: "previewSkills",
+        cvProjects: "previewProjects",
+        cvCertificates: "previewCertificates",
+        cvLanguages: "previewLanguages",
+      };
+
+      /* =====================================
+   PROFILOVÁ FOTOGRAFIE
+===================================== */
+
+      const cvPhoto = document.getElementById("cvPhoto");
+      const cvPhotoPreview = document.getElementById("cvPhotoPreview");
+      const cvPhotoImage = document.getElementById("cvPhotoImage");
+      const removeCvPhoto = document.getElementById("removeCvPhoto");
+
+      const cvPreviewPhoto = document.getElementById("cvPreviewPhoto");
+      const cvPreviewPhotoImage = document.getElementById(
+        "cvPreviewPhotoImage",
+      );
+
+      if (cvPhoto) {
+        cvPhoto.addEventListener("change", () => {
+          const file = cvPhoto.files[0];
+
+          if (!file) {
+            return;
+          }
+
+          const reader = new FileReader();
+
+          reader.onload = (event) => {
+            const imageUrl = event.target.result;
+
+            /* NÁHLED U FORMULÁŘE */
+
+            if (cvPhotoImage) {
+              cvPhotoImage.src = imageUrl;
+            }
+
+            if (cvPhotoPreview) {
+              cvPhotoPreview.style.display = "block";
+            }
+
+            /* FOTOGRAFIE V CV */
+
+            if (cvPreviewPhotoImage) {
+              cvPreviewPhotoImage.src = imageUrl;
+            }
+
+            if (cvPreviewPhoto) {
+              cvPreviewPhoto.style.display = "block";
+            }
+          };
+
+          reader.readAsDataURL(file);
+        });
+      }
+
+      if (removeCvPhoto) {
+        removeCvPhoto.addEventListener("click", () => {
+          cvPhoto.value = "";
+
+          if (cvPhotoImage) {
+            cvPhotoImage.src = "";
+          }
+
+          if (cvPhotoPreview) {
+            cvPhotoPreview.style.display = "none";
+          }
+
+          if (cvPreviewPhotoImage) {
+            cvPreviewPhotoImage.src = "";
+          }
+
+          if (cvPreviewPhoto) {
+            cvPreviewPhoto.style.display = "none";
+          }
+        });
+      }
+
+      /* =====================================
+   ŽIVÝ NÁHLED CV
+===================================== */
+
+      function updateCvPreview() {
+        const name = document.getElementById("cvName").value.trim();
+
+        const title = document.getElementById("cvTitle").value.trim();
+
+        const email = document.getElementById("cvEmail").value.trim();
+
+        const phone = document.getElementById("cvPhone").value.trim();
+
+        const city = document.getElementById("cvCity").value.trim();
+
+        const website = document.getElementById("cvWebsite").value.trim();
+
+        const about = document.getElementById("cvAbout").value.trim();
+
+        const experience = document.getElementById("cvExperience").value.trim();
+
+        const education = document.getElementById("cvEducation").value.trim();
+
+        const skills = document.getElementById("cvSkills").value.trim();
+
+        const projects = document.getElementById("cvProjects").value.trim();
+
+        const certificates = document
+          .getElementById("cvCertificates")
+          .value.trim();
+
+        const languages = document.getElementById("cvLanguages").value.trim();
+
+        /* JMÉNO */
+
+        document.getElementById("previewName").textContent =
+          name || "Tvoje jméno";
+
+        /* POZICE */
+
+        document.getElementById("previewTitle").textContent =
+          title || "Profesní pozice";
+
+        /* KONTAKT */
+
+        const contactParts = [];
+
+        if (email) {
+          contactParts.push(email);
+        }
+
+        if (phone) {
+          contactParts.push(phone);
+        }
+
+        if (city) {
+          contactParts.push(city);
+        }
+
+        if (website) {
+          contactParts.push(website);
+        }
+
+        document.getElementById("previewContact").textContent =
+          contactParts.length > 0
+            ? contactParts.join(" · ")
+            : "email@example.com · +420 123 456 789";
+
+        /* PROFIL */
+
+        document.getElementById("previewAbout").textContent =
+          about || "Krátké představení se zobrazí zde.";
+
+        /* ZKUŠENOSTI */
+
+        document.getElementById("previewExperience").textContent =
+          experience || "Tvoje pracovní zkušenosti se zobrazí zde.";
+
+        /* VZDĚLÁNÍ */
+
+        document.getElementById("previewEducation").textContent =
+          education || "Tvoje vzdělání se zobrazí zde.";
+
+        /* DOVEDNOSTI */
+
+        document.getElementById("previewSkills").textContent =
+          skills || "Tvoje dovednosti se zobrazí zde.";
+
+        /* PROJEKTY */
+
+        document.getElementById("previewProjects").textContent =
+          projects || "Tvoje projekty se zobrazí zde.";
+
+        /* CERTIFIKACE */
+
+        document.getElementById("previewCertificates").textContent =
+          certificates || "Tvoje certifikace a kurzy se zobrazí zde.";
+
+        /* JAZYKY */
+
+        document.getElementById("previewLanguages").textContent =
+          languages || "Tvoje jazykové znalosti se zobrazí zde.";
+      }
+
+      /* =====================================
+   AUTOMATICKÉ AKTUALIZACE NÁHLEDU
+===================================== */
+
+      const previewFields = [
+        "cvName",
+        "cvTitle",
+        "cvEmail",
+        "cvPhone",
+        "cvCity",
+        "cvWebsite",
+        "cvAbout",
+        "cvExperience",
+        "cvEducation",
+        "cvSkills",
+        "cvProjects",
+        "cvCertificates",
+        "cvLanguages",
+      ];
+
+      previewFields.forEach((fieldId) => {
+        const field = document.getElementById(fieldId);
+
+        if (field) {
+          field.addEventListener("input", updateCvPreview);
+        }
+      });
+
+      updateCvPreview();
+
+      /* =====================================
+     VÝBĚR ŠABLONY
+  ===================================== */
+
+      const templateCards = document.querySelectorAll(".cv-template-card");
+      const cvPreview = document.getElementById("cvPreview");
+
+      templateCards.forEach((card) => {
+        card.addEventListener("click", () => {
+          templateCards.forEach((item) => {
+            item.classList.remove("active");
+          });
+
+          card.classList.add("active");
+
+          const selectedTemplate = card.dataset.template;
+
+          cvPreview.dataset.template = selectedTemplate;
+        });
+      });
+
+      /* Výchozí šablona */
+
+      cvPreview.dataset.template = "modern";
+    </script>
+  </body>
+</html>

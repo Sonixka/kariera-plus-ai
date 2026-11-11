@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Databáze
+*.db
+
+# Environment variables
+.env
+
+# Editor
+.vscode/
+
+# Systémové soubory
+.DS_Store
+Thumbs.db
+
+# Uploaded files and personal documents
+**/uploads/
+*.pdf
+*.docx
+
+# Downloaded MPSV data cache
+backend/data/mpsv_jobs.json
+# Secrets and local configuration
+.env.*
+!.env.example
+
+# Python cache and test files
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases and backups
+*.bak
+*.backup
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Local test data
+backend/data.json
+
+# Backup files
+index-backup.html
+script-backup.js
+style-backup.css
