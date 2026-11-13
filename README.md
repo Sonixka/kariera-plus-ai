@@ -38,7 +38,7 @@ Aplikace je zaměřená na české uchazeče o zaměstnání: při vyhledáván�
 
 ### Požadavky
 
-- Python 3.14 — verze použitá v aktuálním vývojovém prostředí.
+- Python 3.14.7.
 - API klíče pro Google Gemini, Jooble a StartupJobs.
 
 ### 1. Naklonování repozitáře
@@ -59,12 +59,11 @@ py -m venv .venv
 
 ### 3. Instalace závislostí
 
+V hlavní složce projektu spusť:
+
 ```powershell
 python -m pip install -r requirements.txt
-python -m pip install "python-jose[cryptography]" "passlib[bcrypt]" email-validator pdfplumber
 ```
-
-Druhý příkaz instaluje balíčky, které aktuální zdrojový kód používá, ale zatím nejsou uvedené v `requirements.txt`. Pro čisté lokální spuštění projektu je potřeba spustit oba příkazy.
 
 ### 4. Nastavení proměnných prostředí
 
