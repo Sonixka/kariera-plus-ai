@@ -36,9 +36,9 @@ Aplikace je zaměřená na české uchazeče o zaměstnání: při vyhledáván�
 
 ## Spuštění projektu
 
-### Požadavky
+## Požadavky
 
-- Python 3.14.7.
+- Python 3.13 nebo novější.
 - API klíče pro Google Gemini, Jooble a StartupJobs.
 
 ### 1. Naklonování repozitáře
