@@ -1,117 +1,193 @@
 # Kariéra+ AI
 
-Kariéra+ AI je portfolio webová aplikace pro přehledné řízení hledání práce. Spojuje osobní správu pracovních nabídek, vyhledávání pozic, analýzu životopisu a přípravu na pracovní pohovor v jednom rozhraní.
+**AI-powered job search assistant built for the Czech job market.**
 
-Aplikace je zaměřená na české uchazeče o zaměstnání: při vyhledávání využívá data MPSV a API služeb Jooble a StartupJobs. Odpovědi nástrojů umělé inteligence jsou generovány v češtině.
+Kariéra+ AI je webová aplikace, která pomáhá uchazečům o zaměstnání organizovat hledání práce na jednom místě. Kombinuje správu pracovních nabídek, vyhledávání volných pozic, analýzu životopisu a přípravu na pracovní pohovor s využitím umělé inteligence.
 
-## Funkce
+Aplikace je zaměřena na český pracovní trh. Při vyhledávání využívá data MPSV a služby Jooble a StartupJobs. AI funkce využívají Google Gemini a komunikují v češtině.
 
-- Registrace a přihlášení uživatelů pomocí JWT autentizace.
-- Přidávání, úprava, mazání a změna stavu vlastních pracovních nabídek.
-- Vyhledávání pracovních nabídek podle pozice a lokality napříč MPSV, Jooble a StartupJobs.
-- Porovnání pracovních nabídek se zadanými dovednostmi a zobrazení míry shody.
-- AI analýza vybrané pracovní nabídky pomocí Google Gemini.
-- Nahrání životopisu ve formátu PDF nebo DOCX, extrakce textu a uložení AI analýzy pro přihlášeného uživatele.
-- Příprava na pohovor, vícekroková simulace pohovoru a uložení závěrečného hodnocení.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
+  <img src="https://img.shields.io/badge/JavaScript-Frontend-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Google-Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Google Gemini" />
+</p>
 
-## Použité technologie
+---
 
-- **Backend:** Python, FastAPI, Pydantic a Uvicorn
-- **Databáze:** SQLite
-- **Umělá inteligence:** Google Gemini prostřednictvím Google Gen AI SDK
-- **Frontend:** HTML, CSS a čistý JavaScript
-- **Zpracování dokumentů:** pdfplumber a python-docx
-- **Autentizace:** JWT, passlib a bcrypt
+## ✨ Hlavní funkce
 
-## Struktura projektu
+### 👤 Uživatelský účet
+- Registrace a přihlášení uživatelů.
+- Zabezpečení pomocí JWT autentizace.
+- Oddělená správa pracovních nabídek jednotlivých uživatelů.
 
-- `backend/` obsahuje aplikaci FastAPI.
-  - `routers/` definuje endpointy pro autentizaci, pracovní nabídky, analýzu životopisu, AI funkce a pohovory.
-  - `services/` obsahuje logiku pro AI, autentizaci, vyhledávání a porovnávání pracovních nabídek.
-  - `models/` obsahuje datové modely Pydantic.
-  - `database/database.py` vytváří a aktualizuje lokální databázovou strukturu SQLite.
-  - `utils/` obsahuje pomocné funkce pro JWT autentizaci a zabezpečení.
-- `frontend/` obsahuje statické stránky aplikace, styly a JavaScript spuštěný v prohlížeči.
-- `requirements.txt` obsahuje seznam Python balíčků projektu.
+### 💼 Správa pracovních nabídek
+- Přidávání, úprava a mazání pracovních nabídek.
+- Evidence průběhu hledání zaměstnání.
+- Změna stavu nabídky podle průběhu výběrového řízení.
 
-## Spuštění projektu
+### 🔎 Vyhledávání zaměstnání
+- Vyhledávání podle pracovní pozice a lokality.
+- Propojení se zdroji MPSV, Jooble a StartupJobs.
+- Porovnávání pracovních nabídek se zadanými dovednostmi.
+- Výpočet a zobrazení míry shody s pracovní pozicí.
 
-## Požadavky
+### 🤖 AI analýza
+- Analýza pracovních nabídek pomocí Google Gemini.
+- Nahrávání životopisů ve formátu PDF a DOCX.
+- Extrakce textu z dokumentů.
+- AI vyhodnocení životopisu a uložení výsledků pro přihlášeného uživatele.
 
-- Python 3.13 nebo novější.
-- API klíče pro Google Gemini, Jooble a StartupJobs.
+### 🎯 Příprava na pracovní pohovor
+- Příprava na pracovní pohovor.
+- Vícekroková simulace pohovoru.
+- Vyhodnocení odpovědí a uložení závěrečného hodnocení.
+
+---
+
+## 🛠️ Použité technologie
+
+| Oblast | Technologie |
+|---|---|
+| Programovací jazyk | Python |
+| Backend | FastAPI, Uvicorn |
+| Datové modely | Pydantic |
+| Databáze | SQLite |
+| Umělá inteligence | Google Gemini, Google Gen AI SDK |
+| Frontend | HTML5, CSS3, JavaScript |
+| Autentizace | JWT, Passlib, bcrypt |
+| Zpracování PDF | pdfplumber |
+| Zpracování DOCX | python-docx |
+| Vývojové prostředí | Visual Studio Code |
+| Správa verzí | Git, GitHub |
+
+---
+
+## 📁 Struktura projektu
+
+```text
+kariera-plus-ai/
+│
+├── backend/
+│   ├── database/
+│   ├── models/
+│   ├── routers/
+│   ├── services/
+│   ├── uploads/
+│   ├── utils/
+│   └── main.py
+│
+├── frontend/
+│   ├── ai_analysis.html
+│   ├── cv-builder.html
+│   ├── cv.html
+│   ├── index.html
+│   ├── interview.html
+│   ├── login.html
+│   ├── registre.html
+│   └── style.css
+│
+├── tests/
+├── .env
+├── .gitignore
+├── requirements.txt
+└── README.md
+```
+
+### Backend
+
+- `routers/` – API endpointy pro autentizaci, pracovní nabídky, životopisy, AI funkce a pohovory.
+- `services/` – aplikační logika, AI služby, autentizace, vyhledávání a porovnávání pracovních nabídek.
+- `models/` – datové modely a validace pomocí Pydantic.
+- `database/` – připojení k databázi a správa struktury SQLite.
+- `utils/` – pomocné funkce pro JWT autentizaci a zabezpečení.
+- `uploads/` – soubory nahrané do aplikace.
+- `main.py` – hlavní vstupní bod aplikace FastAPI.
+
+### Frontend
+
+Uživatelské rozhraní tvořené HTML stránkami, CSS styly a JavaScriptem.
+
+---
+
+## 🚀 Spuštění projektu
+
+### Požadavky
+
+- Python 3.13 nebo novější
+- pip
+- Git
 
 ### 1. Naklonování repozitáře
 
 ```bash
 git clone https://github.com/Sonixka/kariera-plus-ai.git
+```
+
+### 2. Otevření složky projektu
+
+```bash
 cd kariera-plus-ai
 ```
 
-### 2. Vytvoření a aktivace virtuálního prostředí
+### 3. Vytvoření virtuálního prostředí
 
-Ve Windows PowerShellu spusť:
+```bash
+python -m venv .venv
+```
+
+### 4. Aktivace virtuálního prostředí
+
+Windows PowerShell:
 
 ```powershell
-py -m venv .venv
 .venv\Scripts\Activate.ps1
 ```
 
-### 3. Instalace závislostí
+### 5. Instalace závislostí
 
-V hlavní složce projektu spusť:
-
-```powershell
-python -m pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
 ```
 
-### 4. Nastavení proměnných prostředí
+### 6. Konfigurace prostředí
 
-V hlavní složce projektu vytvoř soubor `.env`:
+V kořenové složce projektu vytvoř soubor `.env` a nastav potřebné API klíče a konfigurační hodnoty podle používaných služeb.
 
-```env
-GEMINI_API_KEY=tvuj_gemini_api_klic
-SECRET_KEY=nahodny_tajny_klic_o_delce_alespon_32_znaku
-JOOBLE_API_KEY=tvuj_jooble_api_klic
-STARTUPJOBS_API_KEY=tvuj_startupjobs_api_klic
-```
+Pro AI funkce je potřeba platný přístup ke Google Gemini API.
 
-`GEMINI_API_KEY` a `SECRET_KEY` jsou potřebné pro spuštění API. `JOOBLE_API_KEY` a `STARTUPJOBS_API_KEY` umožňují načítání výsledků z těchto zdrojů; vyhledávání v datech MPSV funguje samostatně.
+**Důležité:** Soubor `.env` s tajnými klíči nikdy neukládej do veřejného GitHub repozitáře.
 
-**Bezpečnost:** Soubor `.env` obsahuje citlivé údaje, je vyloučený ze správy verzí a nikdy nesmí být nahrán do veřejného repozitáře.
+### 7. Spuštění aplikace
 
-### 5. Spuštění backendu
-
-V hlavní složce projektu spusť:
-
-```powershell
+```bash
 python -m uvicorn backend.main:app --reload
 ```
 
-API poběží na adrese [http://127.0.0.1:8000](http://127.0.0.1:8000). Interaktivní dokumentace FastAPI je dostupná na [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+Po spuštění je aplikace dostupná na:
 
-Při prvním spuštění aplikace vytvoří soubor `jobs.db` v hlavní složce projektu a inicializuje potřebné tabulky.
-
-### 6. Spuštění frontendu
-
-V druhém terminálu, opět v hlavní složce projektu, spusť:
-
-```powershell
-python -m http.server 5500 --directory frontend
+```text
+http://127.0.0.1:8000
 ```
 
-V prohlížeči otevři [http://localhost:5500](http://localhost:5500). Backend musí během používání frontendu zůstat spuštěný; frontend aktuálně používá API na adrese `http://127.0.0.1:8000`.
+Dokumentace API:
 
-## Přehled API
+```text
+http://127.0.0.1:8000/docs
+```
 
-Backend nabízí endpointy pro registraci a přihlášení, správu a vyhledávání pracovních nabídek, nahrávání a analýzu životopisů, AI analýzu nabídek a přípravu, simulaci a ukládání výsledků pohovorů. Přesné formáty požadavků a odpovědí jsou při spuštěném backendu dostupné v dokumentaci `/docs`.
+---
 
-## Poznámky
+## 🎯 Cíl projektu
 
-- Databáze, nahrané životopisy a lokální konfigurační soubory jsou záměrně ignorovány Gitem.
-- Vyhledávání pracovních nabídek využívá externí služby; výsledky závisejí na jejich dostupnosti a platných API klíčích.
-- Projekt je průběžně rozvíjen jako portfolio aplikace.
+Cílem Kariéra+ AI je vytvořit praktický nástroj, který usnadní hledání zaměstnání a pomůže uchazečům lépe se připravit na pracovní příležitosti.
 
-## Autor
+Projekt vzniká jako vlastní vývojářský projekt se zaměřením na Python, vývoj webových aplikací, práci s API, databázemi a integraci umělé inteligence.
 
-Sonixka — [GitHub profil](https://github.com/Sonixka)
+---
+
+<p align="center">
+  <b>Built with Python, curiosity and AI. ✨</b>
+</p>
