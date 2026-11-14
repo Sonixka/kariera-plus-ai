@@ -191,3 +191,20 @@ Projekt vzniká jako vlastní vývojářský projekt se zaměřením na Python, 
 <p align="center">
   <b>Built with Python, curiosity and AI. ✨</b>
 </p>
+
+
+## 📸 Ukázky aplikace
+
+<p align="center">
+  <img src="./Sn%C3%ADmek%20obrazovky%202026-11-14%20162427.png" width="48%" />
+  <img src="./Sn%C3%ADmek%20obrazovky%202026-11-14%20162454.png" width="48%" />
+</p>
+
+<p align="center">
+  <img src="./Sn%C3%ADmek%20obrazovky%202026-11-14%20173517.png" width="48%" />
+  <img src="./Sn%C3%ADmek%20obrazovky%202026-11-14%20173539.png" width="48%" />
+</p>
+
+<p align="center">
+  <img src="./Sn%C3%ADmek%20obrazovky%202026-11-14%20173559.png" width="70%" />
+</p>
